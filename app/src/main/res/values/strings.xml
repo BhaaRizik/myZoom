@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Zoom</string>
+    <string name="open_zoom">Open Zoom Meeting</string>
+    <string name="meeting_title">Meeting Title</string>
 </resources>

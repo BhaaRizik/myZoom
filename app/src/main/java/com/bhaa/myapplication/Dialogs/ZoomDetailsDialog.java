@@ -28,7 +28,7 @@ import java.util.Calendar;
 
 public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private AddZoomDialogListener listener;
-    private EditText organizer;
+    private EditText meetingTitle;
     private TextView date;
     private TextView time;
     private EditText link;
@@ -54,16 +54,16 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
                 .setPositiveButton("Insert", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String organizerName = organizer.getText().toString();
+                        String meetingTitleString = meetingTitle.getText().toString();
                         String dateOfZoom = date.getText().toString();
                         String timeOfZoom = time.getText().toString();
                         String linkOfZoom = link.getText().toString();
-                        listener.applyTexts(organizerName, dateOfZoom, timeOfZoom, linkOfZoom);
+                        listener.applyTexts(meetingTitleString, dateOfZoom, timeOfZoom, linkOfZoom);
 
                     }
                 });
 
-        organizer = view.findViewById(R.id.organizer);
+        meetingTitle = view.findViewById(R.id.meetingTitle);
         date = view.findViewById(R.id.date);
         time = view.findViewById(R.id.time);
         link = view.findViewById(R.id.link);
@@ -119,6 +119,6 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
     }
 
     public interface AddZoomDialogListener {
-        void applyTexts(String organizer, String date, String time, String link);
+        void applyTexts(String meetingTitle, String date, String time, String link);
     }
 }
