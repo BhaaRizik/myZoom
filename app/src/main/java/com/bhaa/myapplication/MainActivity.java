@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog
     }
 
     @Override
-    public void applyTexts(String organizer, String date, String time, final String link) {
-        zoomArrayList.add(new Zoom(organizer, date, time, link));
+    public void applyTexts(String meetingTitle, String date, String time, final String link) {
+        zoomArrayList.add(new Zoom(meetingTitle, date, time, link));
         saveData();
     }
 

@@ -15,8 +15,12 @@
             android:id="@+id/addZoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/buttonshape"
             android:onClick="addZoomOpenPopup"
-            android:text="Add Zoom Link" />
+            android:text="Add Zoom Link"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/defaultBackgroundColor"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewZooms"

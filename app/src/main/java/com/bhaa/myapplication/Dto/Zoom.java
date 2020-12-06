@@ -1,24 +1,24 @@
 package com.bhaa.myapplication.Dto;
 
 public class Zoom {
-    private String organizer;
+    private String meetingTitle;
     private String date;
     private String time;
     private String link;
 
-    public Zoom(String organizer, String date, String time, String link) {
-        this.organizer = organizer;
+    public Zoom(String meetingTitle, String date, String time, String link) {
+        this.meetingTitle = meetingTitle;
         this.date = date;
         this.time = time;
         this.link = link;
     }
 
-    public String getOrganizer() {
-        return organizer;
+    public String getMeetingTitle() {
+        return meetingTitle;
     }
 
-    public void setOrganizer(String organizer) {
-        this.organizer = organizer;
+    public void setMeetingTitle(String meetingTitle) {
+        this.meetingTitle = meetingTitle;
     }
 
     public String getDate() {

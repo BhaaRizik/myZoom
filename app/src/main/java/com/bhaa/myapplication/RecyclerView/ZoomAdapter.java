@@ -42,7 +42,7 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
     }
 
     public static class ZoomViewHolder extends RecyclerView.ViewHolder {
-        public TextView organizer;
+        public TextView meetingTitle;
         public TextView date;
         public TextView time;
         public TextView link;
@@ -51,24 +51,22 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
 
         public ZoomViewHolder(View itemView) {
             super(itemView);
-            organizer = itemView.findViewById(R.id.recyclerOrganizer);
+            meetingTitle = itemView.findViewById(R.id.recyclerMeetingTitle);
             date = itemView.findViewById(R.id.recyclerDate);
             time = itemView.findViewById(R.id.recyclerTime);
-            link = itemView.findViewById(R.id.recyclerLink);
             openZoom = itemView.findViewById(R.id.openZoomLink);
             context = itemView.getContext();
         }
 
         public void bindData(ArrayList<Zoom> zoomArrayList, int position){
             final Zoom currentItem = zoomArrayList.get(position);
-            organizer.setText(currentItem.getOrganizer());
+            meetingTitle.setText(currentItem.getMeetingTitle());
             date.setText(currentItem.getDate());
             time.setText(currentItem.getTime());
-            link.setText(currentItem.getLink());
             openZoom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri uri = Uri.parse("http://www." + currentItem.getLink()); // missing 'http://' will cause crashed
+                    Uri uri = Uri.parse(currentItem.getLink());
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     context.startActivity(intent);
                 }
