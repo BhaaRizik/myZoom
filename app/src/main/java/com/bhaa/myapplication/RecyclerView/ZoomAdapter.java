@@ -1,9 +1,12 @@
 package com.bhaa.myapplication.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +46,8 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
         public TextView date;
         public TextView time;
         public TextView link;
+        public Button openZoom;
+        private Context context;
 
         public ZoomViewHolder(View itemView) {
             super(itemView);
@@ -50,14 +55,24 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
             date = itemView.findViewById(R.id.recyclerDate);
             time = itemView.findViewById(R.id.recyclerTime);
             link = itemView.findViewById(R.id.recyclerLink);
+            openZoom = itemView.findViewById(R.id.openZoomLink);
+            context = itemView.getContext();
         }
 
         public void bindData(ArrayList<Zoom> zoomArrayList, int position){
-            Zoom currentItem = zoomArrayList.get(position);
+            final Zoom currentItem = zoomArrayList.get(position);
             organizer.setText(currentItem.getOrganizer());
             date.setText(currentItem.getDate());
             time.setText(currentItem.getTime());
             link.setText(currentItem.getLink());
+            openZoom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri uri = Uri.parse("http://www." + currentItem.getLink()); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
