@@ -37,6 +37,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:backgroundTint="@color/defaultFontColor"
                 android:ems="10"
                 android:gravity="center"
@@ -50,10 +51,10 @@
                 android:id="@+id/buttonDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:background="@drawable/buttonshape"
                 android:onClick="pickDate"
-                android:text="Pick Zoom Date"
+                android:text="Pick Date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/defaultBackgroundColor" />
         </LinearLayout>
@@ -73,6 +74,7 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Time"
@@ -85,9 +87,9 @@
                 android:id="@+id/buttonTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:background="@drawable/buttonshape"
-                android:text="Pick Zoom Time"
+                android:text="Pick Time"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/defaultBackgroundColor" />
 
