@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 
+import com.bhaa.myapplication.MainActivity;
 import com.bhaa.myapplication.R;
 import com.bhaa.myapplication.utils.DatePickerFragment;
 import com.bhaa.myapplication.utils.TimePickerFragment;
@@ -35,16 +36,16 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
 
     private Button dateButton;
     private Button timeButton;
+    private String editOrAdd = "add";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.add_zoom_details, null);
         builder.setView(view)
-                .setTitle("Insert zoom Details")
+                .setTitle(editOrAdd.equals("add") ? "Insert zoom Details" : "Edit")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -58,7 +59,7 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
                         String dateOfZoom = date.getText().toString();
                         String timeOfZoom = time.getText().toString();
                         String linkOfZoom = link.getText().toString();
-                        listener.applyTexts(meetingTitleString, dateOfZoom, timeOfZoom, linkOfZoom);
+                        listener.applyTexts(meetingTitleString, dateOfZoom, timeOfZoom, linkOfZoom, editOrAdd);
 
                     }
                 });
@@ -69,6 +70,13 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
         link = view.findViewById(R.id.link);
         dateButton = view.findViewById(R.id.buttonDate);
         timeButton = view.findViewById(R.id.buttonTime);
+
+        if(editOrAdd.equals("edit")) {
+            meetingTitle.setText(MainActivity.zoomToSend.getMeetingTitle());
+            date.setText(MainActivity.zoomToSend.getDate());
+            time.setText(MainActivity.zoomToSend.getTime());
+            link.setText(MainActivity.zoomToSend.getLink());
+        }
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +127,10 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
     }
 
     public interface AddZoomDialogListener {
-        void applyTexts(String meetingTitle, String date, String time, String link);
+        void applyTexts(String meetingTitle, String date, String time, String link, String editOrAdd);
+    }
+
+    public void setEditOrAdd(String editOrAdd){
+        this.editOrAdd = editOrAdd;
     }
 }

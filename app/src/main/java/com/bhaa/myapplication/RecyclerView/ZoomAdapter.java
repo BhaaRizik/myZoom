@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder> {
     private ArrayList<Zoom> zoomArrayList;
+    private static onZoomItemClickListener onZoomItemClickListener;
 
     public ZoomAdapter(ArrayList<Zoom> zooms) {
         zoomArrayList = zooms;
@@ -42,6 +43,7 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
     }
 
     public static class ZoomViewHolder extends RecyclerView.ViewHolder {
+        private View itemView;
         public TextView meetingTitle;
         public TextView date;
         public TextView time;
@@ -51,6 +53,7 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
 
         public ZoomViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             meetingTitle = itemView.findViewById(R.id.recyclerMeetingTitle);
             date = itemView.findViewById(R.id.recyclerDate);
             time = itemView.findViewById(R.id.recyclerTime);
@@ -58,7 +61,7 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
             context = itemView.getContext();
         }
 
-        public void bindData(ArrayList<Zoom> zoomArrayList, int position){
+        public void bindData(ArrayList<Zoom> zoomArrayList, final int position){
             final Zoom currentItem = zoomArrayList.get(position);
             meetingTitle.setText(currentItem.getMeetingTitle());
             date.setText(currentItem.getDate());
@@ -71,6 +74,20 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
                     context.startActivity(intent);
                 }
             });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onZoomItemClickListener.onZoomItemClick(currentItem, position);
+                }
+            });
         }
+    }
+
+    public interface onZoomItemClickListener {
+        void onZoomItemClick(Zoom zoom, int position);
+    }
+
+    public void setOnItemClickListener(onZoomItemClickListener listener) {
+        this.onZoomItemClickListener = listener;
     }
 }
