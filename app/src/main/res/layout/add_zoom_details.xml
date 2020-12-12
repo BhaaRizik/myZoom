@@ -54,7 +54,8 @@
                 android:background="@drawable/buttonshape"
                 android:onClick="pickDate"
                 android:text="Pick Zoom Date"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/defaultBackgroundColor" />
         </LinearLayout>
 
         <View
@@ -87,7 +88,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/buttonshape"
                 android:text="Pick Zoom Time"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/defaultBackgroundColor" />
 
         </LinearLayout>
 
