@@ -18,13 +18,14 @@
             android:background="@drawable/buttonshape"
             android:onClick="addZoomOpenPopup"
             android:text="Add Zoom Link"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/defaultBackgroundColor"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewZooms"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/recyclerViewBackground" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
