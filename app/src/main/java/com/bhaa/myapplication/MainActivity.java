@@ -1,6 +1,7 @@
 package com.bhaa.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,33 +23,51 @@ public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog
     private RecyclerView recyclerView;
     private ZoomAdapter zoomAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
+    private ZoomDetailsDialog zoomDetailsDialog;
+    public int position;
+    public static Zoom zoomToSend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        zoomDetailsDialog = new ZoomDetailsDialog();
         loadData();
         buildRecyclerView();
     }
 
     public void addZoomOpenPopup(View view) {
-        ZoomDetailsDialog zoomDetailsDialog = new ZoomDetailsDialog();
+        zoomDetailsDialog.setEditOrAdd("add");
         zoomDetailsDialog.show(getSupportFragmentManager(), "zoom details dialog");
     }
 
     @Override
-    public void applyTexts(String meetingTitle, String date, String time, final String link) {
-        zoomArrayList.add(new Zoom(meetingTitle, date, time, link));
-        saveData();
+    public void applyTexts(String meetingTitle, String date, String time, final String link, String editOrAdd) {
+        if (editOrAdd.equals("edit")){
+            zoomArrayList.set(position, new Zoom(meetingTitle, date, time, link));
+            saveData();
+            zoomAdapter.notifyDataSetChanged();
+        }else {
+            zoomArrayList.add(new Zoom(meetingTitle, date, time, link));
+            saveData();
+            zoomAdapter.notifyItemInserted(zoomArrayList.size());
+        }
     }
 
     public void buildRecyclerView() {
         recyclerView = findViewById(R.id.recyclerViewZooms);
-        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         zoomAdapter = new ZoomAdapter(zoomArrayList);
+        zoomAdapter.setOnItemClickListener(new ZoomAdapter.onZoomItemClickListener() {
+            @Override
+            public void onZoomItemClick(Zoom zoom, int positionToEdit) {
+                position = positionToEdit;
+                zoomDetailsDialog.setEditOrAdd("edit");
+                zoomToSend = zoom;
+                zoomDetailsDialog.show(getSupportFragmentManager(), "zoom details dialog");
+            }
+        });
         recyclerView.setLayoutManager(layoutManager);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(zoomAdapter);
     }
 
@@ -71,4 +90,18 @@ public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog
             zoomArrayList = new ArrayList<>();
         }
     }
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            zoomArrayList.remove(viewHolder.getAdapterPosition());
+            saveData();
+            zoomAdapter.notifyDataSetChanged();
+        }
+    };
 }
