@@ -4,16 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bhaa.myapplication.Dto.Zoom;
 import com.bhaa.myapplication.R;
-
 import java.util.ArrayList;
 
 
@@ -42,18 +44,21 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
         return zoomArrayList.size();
     }
 
-    public static class ZoomViewHolder extends RecyclerView.ViewHolder {
+    public static class ZoomViewHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener {
         private View itemView;
+        private ImageButton openMenu;
         public TextView meetingTitle;
         public TextView date;
         public TextView time;
         public TextView link;
         public Button openZoom;
         private Context context;
+        private ArrayList<Zoom> zoomArrayList;
 
         public ZoomViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
+            this.openMenu = itemView.findViewById(R.id.recyclerViewMenuButton);
             meetingTitle = itemView.findViewById(R.id.recyclerMeetingTitle);
             date = itemView.findViewById(R.id.recyclerDate);
             time = itemView.findViewById(R.id.recyclerTime);
@@ -61,7 +66,8 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
             context = itemView.getContext();
         }
 
-        public void bindData(ArrayList<Zoom> zoomArrayList, final int position){
+        public void bindData(ArrayList<Zoom> zoomArrayList, final int position) {
+            this.zoomArrayList = zoomArrayList;
             final Zoom currentItem = zoomArrayList.get(position);
             meetingTitle.setText(currentItem.getMeetingTitle());
             date.setText(currentItem.getDate());
@@ -74,12 +80,42 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
                     context.startActivity(intent);
                 }
             });
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onZoomItemClickListener.onZoomItemClick(currentItem, position);
                 }
             });
+
+            openMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openPopupMenuInRecyclerView(view);
+                }
+            });
+        }
+
+        private void openPopupMenuInRecyclerView(View view){
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+            popupMenu.inflate(R.menu.popup_menu);
+            popupMenu.setOnMenuItemClickListener(this);
+            popupMenu.show();
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()){
+                case R.id.share:
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Zoom Details : ");
+                    intent.putExtra(Intent.EXTRA_TEXT, zoomArrayList.get(getAdapterPosition()).toString());
+                    context.startActivity(Intent.createChooser(intent, " Share via ..."));
+            return true;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
+            }
         }
     }
 

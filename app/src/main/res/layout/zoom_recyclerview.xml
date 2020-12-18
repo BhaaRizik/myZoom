@@ -6,50 +6,66 @@
     android:layout_height="wrap_content"
     android:paddingBottom="10dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/defaultBackgroundColor"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        tools:ignore="MissingConstraints">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/recyclerMeetingTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="20dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/defaultFontColor" />
+            android:background="@color/defaultBackgroundColor"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/recyclerDate"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/recyclerMeetingTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/defaultFontColor" />
+
+            <TextView
+                android:id="@+id/recyclerDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/defaultFontColor" />
+
+            <TextView
+                android:id="@+id/recyclerTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/defaultFontColor" />
+
+            <Button
+                android:id="@+id/openZoomLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/buttonshape"
+                android:gravity="center"
+                android:text="@string/open_zoom"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/defaultBackgroundColor" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/recyclerViewMenuButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/defaultFontColor" />
+            android:layout_gravity="right"
+            android:background="@color/defaultBackgroundColor"
+            android:paddingTop="5dp"
+            android:paddingRight="2dp"
+            app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 
-        <TextView
-            android:id="@+id/recyclerTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/defaultFontColor" />
-
-        <Button
-            android:id="@+id/openZoomLink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/buttonshape"
-            android:gravity="center"
-            android:text="@string/open_zoom"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/defaultBackgroundColor" />
-
-    </LinearLayout>
+    </FrameLayout>
 
     <View
         android:id="@+id/view4"

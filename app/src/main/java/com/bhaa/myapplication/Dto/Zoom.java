@@ -44,4 +44,13 @@ public class Zoom {
     public void setLink(String link) {
         this.link = link;
     }
+
+    @Override
+    public String toString() {
+        return "Zoom :" +
+                "\nMeeting Title='" + meetingTitle + '\'' +
+                "\nDate='" + date + '\'' +
+                "\nTime='" + time + '\'' +
+                "\nLink=\n" + link ;
+    }
 }
