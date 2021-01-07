@@ -65,6 +65,13 @@
             android:paddingRight="2dp"
             app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 
+        <Switch
+            android:id="@+id/onceOrWeekly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultFocusHighlightEnabled="false"
+            android:text="Weekly" />
+
     </FrameLayout>
 
     <View

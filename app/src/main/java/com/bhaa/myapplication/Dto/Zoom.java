@@ -1,12 +1,15 @@
 package com.bhaa.myapplication.Dto;
 
+import java.util.Date;
+
 public class Zoom {
     private String meetingTitle;
-    private String date;
+    private Date date;
     private String time;
     private String link;
+    private boolean isWeekly;
 
-    public Zoom(String meetingTitle, String date, String time, String link) {
+    public Zoom(String meetingTitle, Date date, String time, String link, boolean isWeekly) {
         this.meetingTitle = meetingTitle;
         this.date = date;
         this.time = time;
@@ -21,11 +24,11 @@ public class Zoom {
         this.meetingTitle = meetingTitle;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -43,6 +46,14 @@ public class Zoom {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public boolean isWeekly() {
+        return isWeekly;
+    }
+
+    public void setWeekly(boolean weekly) {
+        isWeekly = weekly;
     }
 
     @Override

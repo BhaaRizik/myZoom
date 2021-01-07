@@ -19,12 +19,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 
-import com.bhaa.myapplication.MainActivity;
 import com.bhaa.myapplication.R;
 import com.bhaa.myapplication.utils.DatePickerFragment;
+import com.bhaa.myapplication.utils.Operations;
 import com.bhaa.myapplication.utils.TimePickerFragment;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -33,6 +33,7 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
     private TextView date;
     private TextView time;
     private EditText link;
+    private Calendar c;
 
     private Button dateButton;
     private Button timeButton;
@@ -56,10 +57,8 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String meetingTitleString = meetingTitle.getText().toString();
-                        String dateOfZoom = date.getText().toString();
-                        String timeOfZoom = time.getText().toString();
                         String linkOfZoom = link.getText().toString();
-                        listener.applyTexts(meetingTitleString, dateOfZoom, timeOfZoom, linkOfZoom, editOrAdd);
+                        listener.applyTexts(meetingTitleString, linkOfZoom, editOrAdd, c);
 
                     }
                 });
@@ -70,12 +69,14 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
         link = view.findViewById(R.id.link);
         dateButton = view.findViewById(R.id.buttonDate);
         timeButton = view.findViewById(R.id.buttonTime);
+        c = Calendar.getInstance();
 
         if(editOrAdd.equals("edit")) {
-            meetingTitle.setText(MainActivity.zoomToSend.getMeetingTitle());
-            date.setText(MainActivity.zoomToSend.getDate());
-            time.setText(MainActivity.zoomToSend.getTime());
-            link.setText(MainActivity.zoomToSend.getLink());
+            meetingTitle.setText(Operations.zoomToSend.getMeetingTitle());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            date.setText(dateFormat.format(Operations.zoomToSend.getDate()));
+            time.setText(Operations.zoomToSend.getTime());
+            link.setText(Operations.zoomToSend.getLink());
         }
 
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -112,22 +113,27 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDateString = dateFormat.format(c.getTime());
         date.setText(currentDateString);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        time.setText(hourOfDay + " : " + minute);
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        String currentTime = timeFormat.format(c.getTime());
+        time.setText(currentTime);
     }
 
     public interface AddZoomDialogListener {
-        void applyTexts(String meetingTitle, String date, String time, String link, String editOrAdd);
+        void applyTexts(String meetingTitle, String link, String editOrAdd, Calendar calendar);
     }
 
     public void setEditOrAdd(String editOrAdd){

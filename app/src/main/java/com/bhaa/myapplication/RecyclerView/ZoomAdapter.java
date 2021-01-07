@@ -8,15 +8,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bhaa.myapplication.Dto.Zoom;
 import com.bhaa.myapplication.R;
+import com.bhaa.myapplication.utils.Operations;
+import com.bhaa.myapplication.utils.SharedPreferencesUtils;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder> {
@@ -54,6 +63,8 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
         public Button openZoom;
         private Context context;
         private ArrayList<Zoom> zoomArrayList;
+        private Switch weeklySwitch;
+        private long oneWeek = 604800000L;
 
         public ZoomViewHolder(View itemView) {
             super(itemView);
@@ -64,14 +75,17 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
             time = itemView.findViewById(R.id.recyclerTime);
             openZoom = itemView.findViewById(R.id.openZoomLink);
             context = itemView.getContext();
+            weeklySwitch = itemView.findViewById(R.id.onceOrWeekly);
         }
 
-        public void bindData(ArrayList<Zoom> zoomArrayList, final int position) {
+        public void bindData(final ArrayList<Zoom> zoomArrayList, final int position) {
             this.zoomArrayList = zoomArrayList;
             final Zoom currentItem = zoomArrayList.get(position);
             meetingTitle.setText(currentItem.getMeetingTitle());
-            date.setText(currentItem.getDate());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            date.setText(dateFormat.format(currentItem.getDate()));
             time.setText(currentItem.getTime());
+            weeklySwitch.setChecked(currentItem.isWeekly());
             openZoom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -94,6 +108,28 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
                     openPopupMenuInRecyclerView(view);
                 }
             });
+
+            weeklySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (isChecked) {
+                        Calendar calendar = Calendar.getInstance();
+                        long currentTime = currentItem.getDate().getTime();
+                        currentItem.setDate(new Date(currentTime + oneWeek));
+                        SharedPreferencesUtils.saveData();
+                        SharedPreferencesUtils.loadData();
+                        calendar.setTime(currentItem.getDate());
+                        Operations.startAlarm(context, calendar);
+                        Operations.getZoomAdapter(context, zoomArrayList).notifyDataSetChanged();
+                        Toast.makeText(context, "Switch true", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(context, "Switch false", Toast.LENGTH_LONG).show();
+                    }
+                    currentItem.setWeekly(isChecked);
+                    SharedPreferencesUtils.setZoomArrayList(zoomArrayList);
+                    SharedPreferencesUtils.saveData();
+                }
+            });
         }
 
         private void openPopupMenuInRecyclerView(View view){
@@ -112,7 +148,10 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
                     intent.putExtra(Intent.EXTRA_SUBJECT, "Zoom Details : ");
                     intent.putExtra(Intent.EXTRA_TEXT, zoomArrayList.get(getAdapterPosition()).toString());
                     context.startActivity(Intent.createChooser(intent, " Share via ..."));
-            return true;
+                    return true;
+                case R.id.onceOrWeekly:
+                    Toast.makeText(context, "Switch button", Toast.LENGTH_LONG).show();
+                    return true;
                 default:
                     throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
             }
