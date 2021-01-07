@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog
         String time = timeFormat.format(calendar.getTime());
 
         if (editOrAdd.equals("edit")){
-            zoomArrayList.set(position, new Zoom(meetingTitle, date, time, link, false));
+            zoomArrayList.set(Operations.getPosition(), new Zoom(meetingTitle, date, time, link, false));
             SharedPreferencesUtils.saveData();
             zoomAdapter.notifyDataSetChanged();
         }else {
