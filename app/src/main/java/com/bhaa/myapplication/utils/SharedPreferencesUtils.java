@@ -21,7 +21,6 @@ public class SharedPreferencesUtils {
 
     private SharedPreferencesUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
-      //  this.zoomArrayList = zoomArrayList;
     }
 
     public static SharedPreferencesUtils getSharedPreferencesUtils(SharedPreferences sharedPreferences){

@@ -28,6 +28,11 @@ public class Operations  {
     static ArrayList<Zoom> zoomArrayList;
     static ZoomAdapter zoomAdapter;
     public static Zoom zoomToSend;
+    final static int[] position = new int[1];
+
+    public static int getPosition() {
+        return position[0];
+    }
 
     public static void startAlarm(Context context, Calendar c) {
         long timeInMillis = c.getTimeInMillis();
@@ -44,7 +49,6 @@ public class Operations  {
     public static ZoomAdapter getZoomAdapter(final Context context, ArrayList<Zoom> zoomArrayList){
         setZoomArrayList(zoomArrayList);
         final ZoomDetailsDialog zoomDetailsDialog = new ZoomDetailsDialog();;
-        final int[] position = new int[1];
         zoomAdapter = new ZoomAdapter(zoomArrayList);
         zoomAdapter.setOnItemClickListener(new ZoomAdapter.onZoomItemClickListener() {
             @Override
