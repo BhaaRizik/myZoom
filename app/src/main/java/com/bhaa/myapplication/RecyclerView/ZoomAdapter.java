@@ -62,9 +62,10 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
         public TextView link;
         public Button openZoom;
         private Context context;
-        private ArrayList<Zoom> zoomArrayList;
+        private ArrayList<Zoom> zoomList;
         private Switch weeklySwitch;
         private long oneWeek = 604800000L;
+        SimpleDateFormat dateFormat;
 
         public ZoomViewHolder(View itemView) {
             super(itemView);
@@ -76,13 +77,13 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
             openZoom = itemView.findViewById(R.id.openZoomLink);
             context = itemView.getContext();
             weeklySwitch = itemView.findViewById(R.id.onceOrWeekly);
+            dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         }
 
         public void bindData(final ArrayList<Zoom> zoomArrayList, final int position) {
-            this.zoomArrayList = zoomArrayList;
-            final Zoom currentItem = zoomArrayList.get(position);
+            this.zoomList = zoomArrayList;
+            final Zoom currentItem = zoomList.get(position);
             meetingTitle.setText(currentItem.getMeetingTitle());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             date.setText(dateFormat.format(currentItem.getDate()));
             time.setText(currentItem.getTime());
             weeklySwitch.setChecked(currentItem.isWeekly());
@@ -114,19 +115,19 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if (isChecked) {
                         Calendar calendar = Calendar.getInstance();
-                        long currentTime = currentItem.getDate().getTime();
-                        currentItem.setDate(new Date(currentTime + oneWeek));
-                        SharedPreferencesUtils.saveData();
-                        SharedPreferencesUtils.loadData();
-                        calendar.setTime(currentItem.getDate());
-                        Operations.startAlarm(context, calendar);
-                        Operations.getZoomAdapter(context, zoomArrayList).notifyDataSetChanged();
-                        Toast.makeText(context, "Switch true", Toast.LENGTH_LONG).show();
+                        if (calendar.getTime().after(currentItem.getDate())) {
+                            long currentTime = currentItem.getDate().getTime();
+                            currentItem.setDate(new Date(currentTime + oneWeek));
+                            date.setText(dateFormat.format(currentItem.getDate()));
+                            calendar.setTime(currentItem.getDate());
+                            Operations.startAlarm(context, calendar);
+                            Toast.makeText(context, "Switch true", Toast.LENGTH_LONG).show();
+                        }
                     } else {
                         Toast.makeText(context, "Switch false", Toast.LENGTH_LONG).show();
                     }
                     currentItem.setWeekly(isChecked);
-                    SharedPreferencesUtils.setZoomArrayList(zoomArrayList);
+                    SharedPreferencesUtils.setZoomArrayList(zoomList);
                     SharedPreferencesUtils.saveData();
                 }
             });
@@ -146,7 +147,7 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
                     intent.putExtra(Intent.EXTRA_SUBJECT, "Zoom Details : ");
-                    intent.putExtra(Intent.EXTRA_TEXT, zoomArrayList.get(getAdapterPosition()).toString());
+                    intent.putExtra(Intent.EXTRA_TEXT, zoomList.get(getAdapterPosition()).toString());
                     context.startActivity(Intent.createChooser(intent, " Share via ..."));
                     return true;
                 case R.id.onceOrWeekly:
