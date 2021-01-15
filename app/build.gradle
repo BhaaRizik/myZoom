@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.bhaa.myapplication"
-        minSdkVersion 29
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 2
         versionName "2.0"
