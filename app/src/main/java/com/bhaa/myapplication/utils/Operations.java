@@ -19,6 +19,7 @@ import com.bhaa.myapplication.RecyclerView.ZoomAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Operations  {
     public static void setZoomArrayList(ArrayList<Zoom> zoomArrayList) {
@@ -44,6 +45,10 @@ public class Operations  {
             c.add(Calendar.DATE, 1);
         }
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    }
+
+    private static void cancelAlarm(RecyclerView.ViewHolder viewHolder) {
+        zoomArrayList.get(viewHolder.getAdapterPosition()).setDate(new Date(Calendar.getInstance().getTimeInMillis() - 1));
     }
 
     public static ZoomAdapter getZoomAdapter(final Context context, ArrayList<Zoom> zoomArrayList){
@@ -81,6 +86,7 @@ public class Operations  {
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            cancelAlarm(viewHolder);
             zoomArrayList.remove(viewHolder.getAdapterPosition());
             SharedPreferencesUtils.saveData();
             zoomAdapter.notifyDataSetChanged();

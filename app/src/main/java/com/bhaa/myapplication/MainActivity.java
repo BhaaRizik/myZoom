@@ -20,6 +20,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.bhaa.myapplication.utils.Languge.DeviceProperties.*;
+import static com.bhaa.myapplication.utils.Languge.SpecialLanguage.*;
+
 public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog.AddZoomDialogListener {
     private ArrayList<Zoom> zoomArrayList;
     private RecyclerView recyclerView;
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DeviceProperties.setDeviceLanguage(Locale.getDefault().getDisplayLanguage());
+        setDeviceLanguage(Locale.getDefault().getDisplayLanguage());
         zoomDetailsDialog = new ZoomDetailsDialog();
         sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferencesUtils.getSharedPreferencesUtils(sharedPreferences);
@@ -49,15 +52,23 @@ public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog
 
     @Override
     public void applyTexts(String meetingTitle, final String link, String editOrAdd, Calendar calendar) {
+        int meetingNumber = zoomArrayList.size() + 1;
+        if (meetingTitle.isEmpty()) {
+            if (DeviceProperties.getDeviceLanguage().equals(עברית.name())) {
+                meetingTitle = "מפגש - " + meetingNumber;
+            } else {
+                meetingTitle = "Meeting - " + meetingNumber;
+            }
+        }
         Date date = calendar.getTime();
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         String time = timeFormat.format(calendar.getTime());
 
-        if (editOrAdd.equals("edit")){
+        if (editOrAdd.equals("edit")) {
             zoomArrayList.set(Operations.getPosition(), new Zoom(meetingTitle, date, time, link, false));
             SharedPreferencesUtils.saveData();
             zoomAdapter.notifyDataSetChanged();
-        }else {
+        } else {
             zoomArrayList.add(new Zoom(meetingTitle, date, time, link, false));
             SharedPreferencesUtils.saveData();
             zoomAdapter.notifyItemInserted(zoomArrayList.size());
