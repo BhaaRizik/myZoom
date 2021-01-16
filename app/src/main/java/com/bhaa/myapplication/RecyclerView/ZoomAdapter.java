@@ -23,6 +23,7 @@ import com.bhaa.myapplication.utils.Languge.DeviceProperties;
 import com.bhaa.myapplication.utils.Languge.SpecialLanguage;
 import com.bhaa.myapplication.utils.Operations;
 import com.bhaa.myapplication.utils.SharedPreferencesUtils;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,6 +89,8 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
         }
 
         public void bindData(final ArrayList<Zoom> zoomArrayList, final int position) {
+            final String snackBar = "No URL. Please add";
+            final String snackBarHebrew = "אין קישור.בבקשה הוסף";
             this.zoomList = zoomArrayList;
             final Zoom currentItem = zoomList.get(position);
             meetingTitle.setText(currentItem.getMeetingTitle());
@@ -97,9 +100,14 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
             openZoom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri uri = Uri.parse(currentItem.getLink());
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    context.startActivity(intent);
+                    try {
+                        Uri uri = Uri.parse(currentItem.getLink());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        context.startActivity(intent);
+                    } catch (RuntimeException runTimeException) {
+                        Snackbar.make(itemView, DeviceProperties.getDeviceLanguage().equals(SpecialLanguage.עברית.name()) ? snackBarHebrew : snackBar,
+                                Snackbar.LENGTH_LONG).show();
+                    }
                 }
             });
 
