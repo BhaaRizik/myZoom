@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/defaultBackgroundColor"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/meetingTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/defaultFontColor"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="@string/meeting_title_he"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/defaultFontColor"
+            android:textColorHint="@color/defaultFontColor" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/defualtViewColor" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@drawable/buttonshape"
+                android:onClick="pickDate"
+                android:text="בחר תאריך"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/defaultBackgroundColor" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/defaultFontColor"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="תאריך"
+                android:inputType="date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/defaultFontColor"
+                android:textColorHint="@color/defaultFontColor" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/defualtViewColor" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@drawable/buttonshape"
+                android:text="בחר זמן"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/defaultBackgroundColor" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="זמן"
+                android:inputType="time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/defaultFontColor"
+                android:textColorHint="@color/defaultFontColor" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/defualtViewColor" />
+
+        <EditText
+            android:id="@+id/link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/defaultFontColor"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="קישור"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/defaultFontColor"
+            android:textColorHint="@color/defaultFontColor" />
+    </LinearLayout>
+
+</RelativeLayout>

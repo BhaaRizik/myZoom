@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bhaa.myapplication.Dto.Zoom;
 import com.bhaa.myapplication.R;
+import com.bhaa.myapplication.utils.Languge.DeviceProperties;
+import com.bhaa.myapplication.utils.Languge.SpecialLanguage;
 import com.bhaa.myapplication.utils.Operations;
 import com.bhaa.myapplication.utils.SharedPreferencesUtils;
 
@@ -38,7 +40,12 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
 
     @Override
     public ZoomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.zoom_recyclerview, parent, false);
+
+        View view ;
+        if (DeviceProperties.getDeviceLanguage().equals(SpecialLanguage.עברית.name()))
+           view = LayoutInflater.from(parent.getContext()).inflate(R.layout.zoom_recyclerview_ar_hr, parent, false);
+        else
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.zoom_recyclerview, parent, false);
         ZoomViewHolder zoomViewHolder = new ZoomViewHolder(view);
         return zoomViewHolder;
     }
@@ -133,9 +140,12 @@ public class ZoomAdapter extends RecyclerView.Adapter<ZoomAdapter.ZoomViewHolder
             });
         }
 
-        private void openPopupMenuInRecyclerView(View view){
+        private void openPopupMenuInRecyclerView(View view) {
             PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
-            popupMenu.inflate(R.menu.popup_menu);
+            if (DeviceProperties.getDeviceLanguage().equals(SpecialLanguage.עברית.name()))
+                popupMenu.inflate(R.menu.popup_menu_he);
+            else
+                popupMenu.inflate(R.menu.popup_menu);
             popupMenu.setOnMenuItemClickListener(this);
             popupMenu.show();
         }

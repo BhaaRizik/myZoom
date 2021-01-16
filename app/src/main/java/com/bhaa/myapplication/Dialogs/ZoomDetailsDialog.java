@@ -21,6 +21,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.bhaa.myapplication.R;
 import com.bhaa.myapplication.utils.DatePickerFragment;
+import com.bhaa.myapplication.utils.Languge.DeviceProperties;
+import com.bhaa.myapplication.utils.Languge.SpecialLanguage;
 import com.bhaa.myapplication.utils.Operations;
 import com.bhaa.myapplication.utils.TimePickerFragment;
 
@@ -41,19 +43,26 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        boolean isHebrew = DeviceProperties.getDeviceLanguage().equals(SpecialLanguage.עברית.name());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.add_zoom_details, null);
+        View view;
+        if (DeviceProperties.getDeviceLanguage().equals(SpecialLanguage.עברית.name()))
+            view = inflater.inflate(R.layout.add_zoom_details_he, null);
+        else
+            view = inflater.inflate(R.layout.add_zoom_details, null);
         builder.setView(view)
-                .setTitle(editOrAdd.equals("add") ? "Insert zoom Details" : "Edit")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                .setTitle(editOrAdd.equals("add") ?
+                        isHebrew ? "הוסף מפגש" : "Insert zoom Details" :
+                        isHebrew ? "ערוך" : "Edit")
+                .setNegativeButton(isHebrew ? "ביטול" : "cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                     }
                 })
-                .setPositiveButton("Insert", new DialogInterface.OnClickListener() {
+                .setPositiveButton(isHebrew ? "הוסף" : "Insert", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String meetingTitleString = meetingTitle.getText().toString();
@@ -71,7 +80,7 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
         timeButton = view.findViewById(R.id.buttonTime);
         c = Calendar.getInstance();
 
-        if(editOrAdd.equals("edit")) {
+        if (editOrAdd.equals("edit")) {
             meetingTitle.setText(Operations.zoomToSend.getMeetingTitle());
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             date.setText(dateFormat.format(Operations.zoomToSend.getDate()));
@@ -136,7 +145,7 @@ public class ZoomDetailsDialog extends AppCompatDialogFragment implements DatePi
         void applyTexts(String meetingTitle, String link, String editOrAdd, Calendar calendar);
     }
 
-    public void setEditOrAdd(String editOrAdd){
+    public void setEditOrAdd(String editOrAdd) {
         this.editOrAdd = editOrAdd;
     }
 }

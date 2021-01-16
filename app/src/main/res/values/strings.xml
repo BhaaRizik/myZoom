@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Open URL</string>
     <string name="open_zoom">Open Zoom Meeting</string>
+    <string name="openLinkHebrew">פתח קישור</string>
+    <string name="shareMenuHerbrew">שתף</string>
     <string name="meeting_title">Meeting Title</string>
+    <string name="meeting_title_he">נושא המפגש</string>
 </resources>

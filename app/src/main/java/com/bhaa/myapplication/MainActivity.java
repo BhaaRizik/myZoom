@@ -10,6 +10,7 @@ import android.view.View;
 import com.bhaa.myapplication.Dialogs.ZoomDetailsDialog;
 import com.bhaa.myapplication.Dto.Zoom;
 import com.bhaa.myapplication.RecyclerView.ZoomAdapter;
+import com.bhaa.myapplication.utils.Languge.DeviceProperties;
 import com.bhaa.myapplication.utils.Operations;
 import com.bhaa.myapplication.utils.SharedPreferencesUtils;
 
@@ -17,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog.AddZoomDialogListener {
     private ArrayList<Zoom> zoomArrayList;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements ZoomDetailsDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DeviceProperties.setDeviceLanguage(Locale.getDefault().getDisplayLanguage());
         zoomDetailsDialog = new ZoomDetailsDialog();
         sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferencesUtils.getSharedPreferencesUtils(sharedPreferences);
