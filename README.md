@@ -1,4 +1,3 @@
-"# myZoom" 
 Android application.
 This aplication I made to help me manage the Zoom meetings in my college.
 It contain these operations:
